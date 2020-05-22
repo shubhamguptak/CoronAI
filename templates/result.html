@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+
+    <title>Report</title>
+
+
+    <style>
+
+    </style>
+</head>
+
+
+
+<body>
+
+    <body>
+
+
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #05254c;">
+            <a class="navbar-brand" href="#"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+            <div class="collapse navbar-collapse" id="navbarNav" style="margin-left:36%;">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="taketest" style="color:white;font-size:
+18px;padding: 20px;">TAKE TEST</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="home" style="color: white;font-size: 18px;padding: 20px">CORONAI</a>
+                    </li>
+                    <li class=" nav-item">
+                        <a class="nav-link" href="about" style="color: white;font-size: 18px;padding: 20px">ABOUT US
+                    </a>                </li>
+                </ul>
+            </div>
+        </nav>
+ <br>
+
+
+
+        <!--image div  -->
+
+        <div class="container" style="background-color: white;">
+            <div class="container">
+
+                <div class="row ">
+                    <div class="col-md-2 "></div>
+                    <div class="col-md-8 " style="background-color:white;">
+
+        
+                        <center>
+
+                            <img src="" alt=" " id="testResult" height="50%" width="50%">
+
+                            <br>
+                            <br>
+                            <h3>
+                                <p>Your Result seems to be </p><p id="mainresult"></p> 
+                                <p></p><p id="mainprob"></p> 
+                                <script>
+                                // document.getElementById("mainresult").innerHTML = localStorage.getItem("PredictionResult");
+
+                                </script>
+                  
+                                
+                            </h3>
+                            <br>
+                            
+
+                            <a href="taketest"> <button type="submit " type="button " class="btn btn-info"> Retest</button> </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="home"> <button type="submit " type="button " class="btn btn-info ">  Home</button></a><br><br>
+                            <img src="/static/images/covidtestbelo.png" alt="" height="100%" width="100%"> </center>
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+            <div class="col-md-2"></div>
+
+        </div>
+        </div>
+
+
+        </div>
+
+
+
+
+
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js " integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n " crossorigin="anonymous "></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js " integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo " crossorigin="anonymous "></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js " integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6 " crossorigin="anonymous "></script>
+
+        <script type="text/javascript">
+        <!--{%block content %}-->
+        var Result = {{ result }};
+        var Probability1 = {{ prob1 }};
+        var Probability2 = {{ prob2 }};
+        <!--{% endblock %}-->
+            switch (Result) {
+                case 0:
+                    document.getElementById("testResult").src = "/static/images/positive-pts.png";
+                    document.getElementById("mainresult").innerHTML = "Covid Positive";
+                    document.getElementById("mainprob").innerHTML = "Covid Probability : " + Probability1 + " Normal Probability : " + Probability2;
+                    document.getElementById("mainprob").style.fontSize = "18px";
+                    break;
+                case 1:
+                    document.getElementById("testResult").src = "/static/images/negative-pts.png";
+                    document.getElementById("mainresult").innerHTML = "Normal";
+                    document.getElementById("mainprob").innerHTML = "Covid Probability : " + Probability1 + " Normal Probability : " + Probability2;
+                    document.getElementById("mainprob").style.fontSize = "18px";
+
+                    break;
+                default:
+                    image = "nothing";
+            }</script>
+
+    </body>
+
+</html>

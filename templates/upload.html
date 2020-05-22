@@ -1,0 +1,21 @@
+<html>
+   <body>
+      <form action = "http://localhost:5000/uploader" method = "POST"
+         enctype = "multipart/form-data">
+         <input type = "file" name = "file"  id = "myFile"/>
+         <p id="demo"></p>
+         <p id="demo1"></p>
+         <input type = "submit"/>
+      </form>
+      <button type="button" onclick="myFunction()">Try it</button>
+      <script>
+         function myFunction() {
+           var x = document.getElementById("myFile").value;
+           var h = document.getElementById("myFile").name;
+           document.getElementById("demo").innerHTML = h;
+           document.getElementById("demo1").innerHTML = x;
+         }
+         </script>
+   </body>
+</html>
+

@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <title>Hello, world!</title>
+    <style>
+        .demobtn {
+            border: none;
+            color: indigo;
+            padding: 30px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 0px;
+            margin: 4px 4px;
+            border-radius: 12px;
+            font-weight: 500;
+            background-color: white;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <!--  -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #05254c;">
+        <a class="navbar-brand" href="#"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <div class="collapse navbar-collapse" id="navbarNav" style="margin-left: 36%;">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="taketest.php" style="color: white; font-size: 18px; padding: 20px;">TAKE TEST</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="index.html"
+              style="color: white; font-size: 18px; padding: 20px;"
+              >CORONAI</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              href="about.html"
+              style="color: white; font-size: 18px; padding: 20px;"
+              >About US
+            </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <!--  -->
+
+    <div class="container">
+        <div class="row" style="margin-left: 11%;">
+            <div class="col-sm">
+                <select class="custom-select custom-select-md mb-3" id="stateList">
+          </select>
+            </div>
+            <div class="col-sm">
+                <select class="custom-select custom-select-md mb-3" id="cityList">
+          </select>
+            </div>
+            <div class="col-sm">
+                <button type="button" class="btn btn-info" id="submitbtn">
+            Info
+          </button>
+            </div>
+        </div>
+
+
+
+        <div class="container-fluid">
+            <div class="row" id="fooBar">
+
+            </div>
+        </div>
+        <div class="container">
+            <div id="showDetailList"></div>
+        </div>
+
+        <script>
+            console.log("this is index. js file ");
+            let showDetailList = document.getElementById("showDetailList");
+            let newsAccordion = document.getElementById("demo");
+            const request = new XMLHttpRequest();
+            var url = "https://api.covid19india.org/resources/resources.json";
+            request.open("GET", url, true);
+
+            request.onload = function() {
+                var data = JSON.parse(request.responseText);
+
+                var cityLoc = data.resources;
+                let stateId = document.getElementById("stateList");
+                let cityId = document.getElementById("cityList");
+                let optionDemo = document.getElementsByClassName("option");
+
+                let namesSet = new Set(cityLoc.map((item) => item.state));
+                var arrSat = [...namesSet];
+                console.log("map to aarrray", arrSat);
+                var arrAddCity = [];
+                let arrAddState = [];
+                for (let index = 0; index < cityLoc.length; index++) {
+                    if (cityLoc[index].state == arrSat[0]) {
+                        console.log("", cityLoc[index].state, cityLoc[index].city);
+
+                        let stateIteration = ` <option value="index" class="option">${arrSat[index]}</option>`;
+
+                    }
+                    stateId.innerHTML = arrAddState;
+
+                }
+
+
+                let arrState = [];
+                for (let index = 0; index < arrSat.length; index++) {
+                    var stateIteration = ` <option value="index" onclick="f1()">${arrSat[index]}</option>`;
+                    arrState += stateIteration;
+                }
+                var chooseState = `<option value="index">choose state</option>`;
+                stateId.innerHTML = chooseState + arrState;
+
+                $("#stateList").click(function() {
+                    var arrCityName = [];
+                    var open = $(this).data("isopen");
+                    if (open) {
+                        var ex = document.getElementById("stateList");
+                        var str = ex.options[ex.selectedIndex].text;
+
+
+                        for (let index = 0; index < cityLoc.length; index++) {
+                            if (cityLoc[index].state == str) {
+                                arrCityName.push(cityLoc[index].city);
+                            }
+                        }
+                        var str;
+                        var cityIteration = [];
+                        var uniqueNames = [];
+                        var strCity;
+
+
+                        $.each(arrCityName, function(i, el) {
+                            if ($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+                        });
+
+                        arrAddCity = [];
+                        for (let index = 0; index < uniqueNames.length; index++) {
+                            cityIteration = ` <option value="index" class="option">${uniqueNames[index]}</option>`;
+
+                            arrAddCity += cityIteration;
+                        }
+                        var chooseCity = `<option value="index">choose city</option>`;
+                        cityId.innerHTML = chooseCity + arrAddCity;
+                    }
+                    $(this).data("isopen", !open);
+                });
+                var uniqueCatName = [];
+                var uniqueCatorieName = [];
+                var buttonArray = [];
+                var btnRemoveArr = [];
+                var cardAdd = [];
+                var btnhtm = document.getElementById("grpbtn");
+
+                document.getElementById("submitbtn").addEventListener("click", () => {
+                    for (let index = 0; index < uniqueCatName.length; index++) {
+                        if (uniqueCatName != []) {
+                            console.log("dddddddddddd", uniqueCatName[index]);
+
+
+                            document.getElementById(`${uniqueCatName[index]}`).remove();
+
+                        } else {
+                            break;
+                        }
+                    }
+                    var foo = document.getElementById("fooBar");
+
+                    var exCity = document.getElementById("cityList");
+                    strCity = exCity.options[exCity.selectedIndex].text;
+                    var ex = document.getElementById("stateList");
+                    str = ex.options[ex.selectedIndex].text;
+                    uniqueCatorieName = [];
+                    uniqueCatName = [];
+
+                    for (let index = 0; index < cityLoc.length; index++) {
+                        if (str == cityLoc[index].state) {
+                            if (strCity == cityLoc[index].city) {
+                                console.log("categories", cityLoc[index].category);
+                                uniqueCatorieName.push(cityLoc[index].category);
+                            }
+                        }
+                    }
+
+                    $.each(uniqueCatorieName, function(i, el) {
+                        if ($.inArray(el, uniqueCatName) === -1) uniqueCatName.push(el);
+                    });
+
+                    console.log("uuu", uniqueCatName);
+
+                    for (let index = 0; index < uniqueCatName.length; index++) {
+                        //Create an input type dynamically.
+                        var element = document.createElement("button");
+                        //Assign different attributes to the element.
+                        element.type = "button";
+                        element.value = `${uniqueCatName[index]}`; // Really? You want the default value to be the type string?
+                        element.title = `${uniqueCatName[index]}`;
+                        element.href = "javascript:void()";
+                        element.className = "demobtn";
+                        element.id = `${uniqueCatName[index]}`;
+
+                        element.innerHTML = `${uniqueCatName[index]}`;
+
+                        element.onclick = function() {
+                            // Note this is a function
+                            showDetail(uniqueCatName[index]);
+
+
+                        };
+
+
+                        foo.appendChild(element);
+
+                        // console.log("type of ", typeof element);
+                        switch (`${uniqueCatName[index]}`) {
+                            case "Free Food":
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundImage = "url('/static/images/images-essentials/freefoodimg.png')";
+                                document.getElementById(`${uniqueCatName[index]}`).style.width =
+                                    "169px";
+                                document.getElementById(`${uniqueCatName[index]}`).style.height =
+                                    "89px";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundSize = "169px 89px";
+
+                                break;
+
+                            case "Ambulance":
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundImage = "url('/static/images/images-essentials/ambulance.png')";
+                                document.getElementById(`${uniqueCatName[index]}`).style.width =
+                                    "169px";
+                                document.getElementById(`${uniqueCatName[index]}`).style.height =
+                                    "89px";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundSize = "169px 89px";
+
+                                break;
+                            case "Police":
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundImage = "url('/static/images/images-essentials/police.png')";
+                                document.getElementById(`${uniqueCatName[index]}`).style.width =
+                                    "169px";
+                                document.getElementById(`${uniqueCatName[index]}`).style.height =
+                                    "89px";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundSize = "169px 89px";
+
+                                break;
+                            case "Fire Brigade":
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundImage = "url('/static/images/images-essentials/firebrigade.png')";
+                                document.getElementById(`${uniqueCatName[index]}`).style.width =
+                                    "169px";
+                                document.getElementById(`${uniqueCatName[index]}`).style.height =
+                                    "89px";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundSize = "169px 89px";
+
+                                break;
+                            case "Transportation":
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundImage = "url('/static/images/images-essentials/transport.png')";
+                                document.getElementById(`${uniqueCatName[index]}`).style.width =
+                                    "169px";
+                                document.getElementById(`${uniqueCatName[index]}`).style.height =
+                                    "89px";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundSize = "169px 89px";
+
+                                break;
+
+                            case "CoVID-19 Testing Lab":
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundImage = "url('../static/images/images-essentials/covidlabs.png')";
+                                document.getElementById(`${uniqueCatName[index]}`).style.width =
+                                    "169px";
+                                document.getElementById(`${uniqueCatName[index]}`).style.height =
+                                    "89px";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundSize = "169px 89px";
+
+                                break;
+                            case "Accommodation and Shelter Homes":
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundImage = "url('/static/images/images-essentials/homeshelter.png')";
+                                document.getElementById(`${uniqueCatName[index]}`).style.width =
+                                    "169px";
+                                document.getElementById(`${uniqueCatName[index]}`).style.height =
+                                    "89px";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundSize = "169px 89px";
+
+                                break;
+                            case "Quarantine Facility":
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundImage = "url('/static/images/images-essentials/quarantinecenter.png')";
+                                document.getElementById(`${uniqueCatName[index]}`).style.width =
+                                    "169px";
+                                document.getElementById(`${uniqueCatName[index]}`).style.height =
+                                    "89px";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundSize = "169px 89px";
+
+                                break;
+
+                            case "Delivery [Vegetables, Fruits, Groceries, Medicines, etc.]":
+                                document.getElementById(`${uniqueCatName[index]}`).style.width =
+                                    "169px";
+                                document.getElementById(`${uniqueCatName[index]}`).style.height =
+                                    "89px";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundImage = "url('/static/images/images-essentials/deliveryimg.png') ";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundSize = "169px 89px";
+                                break;
+                            case "Other":
+                                document.getElementById(`${uniqueCatName[index]}`).style.width =
+                                    "169px";
+                                document.getElementById(`${uniqueCatName[index]}`).style.height =
+                                    "89px";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundImage = "url('/static/images/images-essentials/otherimg.png') ";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundSize = "169px 89px";
+
+                                break;
+
+                            case "Fundraisers":
+                                document.getElementById(`${uniqueCatName[index]}`).style.width =
+                                    "169px";
+                                document.getElementById(`${uniqueCatName[index]}`).style.height =
+                                    "89px";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundImage = "url('/static/images/images-essentials/fund raiserimg.png') ";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundSize = "169px 89px";
+
+                                break;
+                            case "Hospitals and Centers":
+                                document.getElementById(`${uniqueCatName[index]}`).style.width =
+                                    "169px";
+                                document.getElementById(`${uniqueCatName[index]}`).style.height =
+                                    "89px";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundImage = "url('/static/images/images-essentials/hospitalsimg.png') ";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundSize = "169px 89px";
+
+                                break;
+                            case "Community Kitchen":
+                                document.getElementById(`${uniqueCatName[index]}`).style.width =
+                                    "169px";
+                                document.getElementById(`${uniqueCatName[index]}`).style.height =
+                                    "89px";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundImage = "url('/static/images/images-essentials/kitchenimg.png') ";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundSize = "169px 89px";
+
+                                break;
+
+                            case "Government Helpline":
+                                document.getElementById(`${uniqueCatName[index]}`).style.width =
+                                    "169px";
+                                document.getElementById(`${uniqueCatName[index]}`).style.height =
+                                    "89px";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundImage = "url('/static/images/images-essentials/helplineimg.png') ";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundSize = "169px 89px";
+
+                                break;
+                            case "Mental well being and Emotional Support":
+                                document.getElementById(`${uniqueCatName[index]}`).style.width =
+                                    "169px";
+                                document.getElementById(`${uniqueCatName[index]}`).style.height =
+                                    "89px";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundImage = "url('/static/images/images-essentials/mental healthimg.png') ";
+                                document.getElementById(
+                                    `${uniqueCatName[index]}`
+                                ).style.backgroundSize = "169px 89px";
+
+                                break;
+
+                            default:
+                                break;
+                        }
+
+
+                    }
+                });
+
+                function showDetail(tempCatName) {
+                    for (let index = 0; index < cityLoc.length; index++) {
+                        if (str == cityLoc[index].state) {
+                            if (strCity == cityLoc[index].city) {
+                                if (tempCatName == cityLoc[index].category) {
+                                    console.log(
+                                        "show list desp",
+                                        cityLoc[index].descriptionandorserviceprovided
+                                    );
+                                    showDetailsList();
+
+                                    function showDetailsList() {
+                                        let cardDetails = `<center><div class="alert alert-success w-60" role="alert">
+  <h4 class="alert-heading">${cityLoc[index].category}</h4>
+  <p><b>Name of the organisation</b>:${cityLoc[index].nameoftheorganisation}</p>
+  <p><b>Description:</b>${cityLoc[index].descriptionandorserviceprovided}</p>
+  <hr />
+  <p class="mb-0">
+    <b>Phone number:</b>${cityLoc[index].phonenumber}
+  </p>
+</div></center>
+`;
+                                        cardAdd += cardDetails;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    showDetailList.innerHTML = cardAdd;
+                    cardAdd = [];
+                }
+
+
+            };
+            request.send();
+        </script>
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <!-- <script src="js/essential.js"></script> -->
+</body>
+
+</html>
