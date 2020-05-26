@@ -85,8 +85,6 @@ def predict():
     passimg = imagePath
     model = load_model('./data/covid19.model')
     print('Hello world!')
-    # imagePath = "./covid_2.jpeg"
-    # imagePath = imageurl
     image = cv2.imread(passimg)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image = cv2.resize(image, (224, 224))
@@ -107,12 +105,6 @@ def predict():
 
 
 
-# @app.route('/showresult',methods=['GET'])
-# def showresult():
-#       response = {
-#         'prediction': covidresult
-#         }
-#       return  (jsonify(response))
 
 
 @app.route('/result')
