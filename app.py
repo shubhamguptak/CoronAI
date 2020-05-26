@@ -72,32 +72,6 @@ def essential():
 
 
 
-# @app.route("/predict", methods=['POST'])
-# def xrayclassifier():
-#     f = request.files['file']
-#     f.save(secure_filename(f.filename))
-#     file_name = f.filename
-#     # message = request.get_json(force =True)
-#     imagePath = file_name
-#     passimg = imagePath
-#     model = load_model('./data/xrayclassifier.model')
-#     print('Hello world!')
-#     # imagePath = "./covid_2.jpeg"
-#     # imagePath = imageurl
-#     image = cv2.imread(imagePath)
-#     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-#     image = cv2.resize(image, (224, 224))
-#     image = image/255.0
-#     predIdxs = model.predict(image.reshape(1,224,224,3))
-#     xraybool = np.argmax(predIdxs)
-#     if xraybool == 0:
-#         print('image is xray')
-#         return predict(passimg)
-#     else:
-#         x = 2
-#         case2 = str(x)
-#         print('image is not valid')
-#         return render_template('result.html', result=case2)
 
 
 @app.route("/predict", methods=['POST'])
@@ -109,7 +83,7 @@ def predict():
     # message = request.get_json(force =True)
     imagePath = file_name
     passimg = imagePath
-    model = load_model('./data/covid19-2.model')
+    model = load_model('./data/covid19.model')
     print('Hello world!')
     # imagePath = "./covid_2.jpeg"
     # imagePath = imageurl
